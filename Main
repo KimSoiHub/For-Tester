@@ -1,0 +1,86 @@
+--Main
+repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "KimSoi Hub",
+    Text = "Success !",
+    Duration = 10,
+    Icon = "rbxassetid://93005671600086"
+})
+
+task.wait(1.5)
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "KimSoi Hub Is Updated !",
+    SubTitle = "Join Discord To Get A New Script !",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(540, 450),
+    Acrylic = true,
+    Theme = "Default",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+-- Tabs
+local Tabs = {
+    Discord = Window:AddTab({ Title = "Discord",Icon = ""})
+}
+InterfaceManager:SetLibrary(Fluent)
+SaveManager:SetLibrary(Fluent)
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({})
+
+-- Toggle Icon
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local ImageLabel = Instance.new("ImageLabel")
+local UICorner = Instance.new("UICorner")
+local TextButton = Instance.new("TextButton")
+
+ScreenGui.Parent = game:GetService("CoreGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.AnchorPoint = Vector2.new(0.1, 0.1)
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.Position = UDim2.new(0, 20, 0.1, -6)
+Frame.Size = UDim2.new(0, 50, 0, 50)
+Frame.Name = "ToggleIcon"
+UICorner.CornerRadius = UDim.new(1, 0)
+UICorner.Parent = Frame
+
+ImageLabel.Parent = Frame
+ImageLabel.Name = "Icon"
+ImageLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+ImageLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+ImageLabel.Size = UDim2.new(0, 60, 0, 60)
+ImageLabel.BackgroundTransparency = 1
+ImageLabel.Image = "rbxassetid://93005671600086"
+
+TextButton.Name = "HotkeyButton"
+TextButton.Parent = Frame
+TextButton.Size = UDim2.new(1, 0, 1, 0)
+TextButton.BackgroundTransparency = 1
+TextButton.Text = ""
+
+local VirtualInputManager = game:GetService("VirtualInputManager")
+TextButton.MouseButton1Down:Connect(function()
+    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
+    task.wait(0.05)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
+end)
+local Players = game:GetService("Players")
+
+Tabs.Discord:AddParagraph({
+    Title = "KimSoi Hub Is Updated !",
+    Content = "Join My Discord To Get A New Script (No Key)!"
+})
+
+Tabs.Discord:AddButton({
+    Title = "Click To Copy Link Discord !",
+    Callback = function()
+       setclipboard("https://discord.gg/9DnNZqUS4E")
+    end
+})
